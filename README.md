@@ -1,5 +1,36 @@
 # Mario RL
 
+## Submission index (everything a grader needs)
+
+Repo: [https://github.com/kodycodes23/Mario_Rl](https://github.com/kodycodes23/Mario_Rl)
+
+| Required | Where |
+|---|---|
+| **Source — game** | [`game/`](game/) (physics, world, levels) |
+| **Source — env** | [`env/mario_env.py`](env/mario_env.py), [`env/wrappers.py`](env/wrappers.py) |
+| **Source — train/eval** | [`agent/train.py`](agent/train.py), [`agent/play.py`](agent/play.py), [`agent/random_baseline.py`](agent/random_baseline.py) |
+| **README** (install / train / eval) | this file, commands below |
+| **Trained weights (best Core agent)** | [`runs/core_c_fix/best_model.zip`](runs/core_c_fix/best_model.zip) |
+| **Results table** | [`Review.md`](Review.md) §3, and [`runs/core_c_fix/eval.json`](runs/core_c_fix/eval.json) |
+| **Learning curves** | [`writeup_assets/core_c_reward_curve.png`](writeup_assets/core_c_reward_curve.png), [`core_c_completion_rate_curve.png`](writeup_assets/core_c_completion_rate_curve.png), [`core_c_progress_curve.png`](writeup_assets/core_c_progress_curve.png) |
+| **TensorBoard logs** | [`runs/core_c_fix/tb/`](runs/core_c_fix/tb/) — `tensorboard --logdir runs/core_c_fix/tb` |
+| **Writeup (2–4 pages)** | [`Review.md`](Review.md) |
+| **Gameplay recording** | [Loom — Watch agent, level 1](https://www.loom.com/share/de38fd773e084ab49decfce4c64cb7c1) |
+
+**Hardware / time:** Apple M1 Pro, CPU only. Core train (`configs/ppo_baseline.yaml`, 2M steps, seed 0) ≈ **9.4 min**.
+
+**Exact commands** (from this directory, after setup):
+
+```bash
+python3.12 -m venv .venv && source .venv/bin/activate && pip install -r requirements.txt
+python -m agent.train --config configs/ppo_baseline.yaml --seed 0
+python -m agent.play --checkpoint runs/core_c_fix/best_model.zip --headless --episodes 100
+python -m agent.random_baseline --episodes 100
+python -m render.app --checkpoint runs/core_c_fix/best_model.zip
+```
+
+---
+
 A small, deterministic, headless-capable platformer (`game/`) wrapped as a Gymnasium env
 (`env/`), trained with PPO via Stable-Baselines3 (`agent/`), with a separate, slick pygame-ce
 renderer (`render/`) for human play and watching the trained agent.
@@ -126,8 +157,8 @@ python -m pytest tests/ -v
   `World.reset(seed)` -- never the `random` module, never an unseeded call. See
   `tests/test_physics.py` for the determinism tests this guarantees.
 - `agent/train.py` seeds `torch`, `numpy`, `random`, the env, and SB3's own `seed=` argument.
-- **Hardware / wall-clock:** Apple M1 Pro, 8-core CPU only, ~27 min per 2M-step run
-  (`configs/ppo_baseline.yaml`, `n_envs=8`, ~1200-1300 fps steady state). See `Review.md` §4.
+- **Hardware / wall-clock:** Apple M1 Pro, 8-core CPU only. Core 2M-step run
+  (`configs/ppo_baseline.yaml`, `n_envs=8`) ≈ **9.4 min** (~3600 fps). See `Review.md` §2.
 
 ## Stretch goals attempted
 
