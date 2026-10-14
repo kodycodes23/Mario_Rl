@@ -70,7 +70,9 @@ see §3.1.** Original values were `time_penalty = -0.01`, `death_penalty = -50`.
 
 Headline Core result: PPO trained 2M steps (`configs/ppo_baseline.yaml`, seed 0,
 `runs/core_c_fix`) **completes `level_1` on 100/100 deterministic eval episodes**, vs 0/100
-for the random-action baseline. Commands:
+for the random-action baseline. Gameplay recording (Watch agent, level 1):
+[https://www.loom.com/share/de38fd773e084ab49decfce4c64cb7c1](https://www.loom.com/share/de38fd773e084ab49decfce4c64cb7c1).
+Commands:
 
 ```bash
 python -m agent.random_baseline --episodes 100 --out runs/core_c_fix/random_baseline.json

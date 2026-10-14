@@ -10,6 +10,13 @@ Gymnasium for the RL API, Stable-Baselines3 (PPO) for the RL algorithm. SB3 give
 PPO loop for free, so the time budget goes into the game engine, the MDP formulation, and the
 analysis in `writeup.md` -- that's where the grading signal is.
 
+## Gameplay
+
+Trained PPO agent (Watch agent, level 1):
+[https://www.loom.com/share/de38fd773e084ab49decfce4c64cb7c1](https://www.loom.com/share/de38fd773e084ab49decfce4c64cb7c1)
+
+Weights: `runs/core_c_fix/best_model.zip`.
+
 ## Repo layout
 
 See `mario_rl_build_prompt.md` for the full brief this was built from. Short version:
