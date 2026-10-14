@@ -1,0 +1,45 @@
+# Train on many layouts; never on held-out level_2.
+# Pick the saved checkpoint using level_1 only (no test-set peeking).
+# After training, eval level_2 yourself:
+#   python -m agent.play --checkpoint runs/<run>/best_model.zip \
+#       --level game/levels/level_2.json --headless --episodes 100
+seed: 0
+
+env:
+  level_path: game/levels/level_1.json
+  eval_level_path: game/levels/level_1.json
+  train_level_paths:
+    - game/levels/level_1.json
+    - game/levels/level_3.json
+    - game/levels/level_4.json
+    - game/levels/level_5.json
+  procgen: true
+  procgen_prob: 0.5
+  max_episode_steps: 3600
+  frame_skip: 2
+  sticky_action_p: 0.0
+  reward_mode: shaped_time
+  n_envs: 8
+
+ppo:
+  policy: MlpPolicy
+  n_steps: 1024
+  batch_size: 256
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.02
+  vf_coef: 0.5
+  learning_rate: 0.0003
+  total_timesteps: 2000000
+  policy_kwargs:
+    net_arch: [128, 128]
+
+eval:
+  eval_freq: 20000
+  n_eval_episodes: 20
+  deterministic: true
+
+checkpoint:
+  save_freq: 100000

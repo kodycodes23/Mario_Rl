@@ -1,0 +1,10 @@
+{
+  "episodes": 100,
+  "completion_rate": 0.0,
+  "avg_progress_frac": 0.3081634790528237,
+  "avg_survival_steps": 136.94,
+  "avg_reward": 1.0591722222222872,
+  "death_cause_breakdown": {
+    "enemy": 1.0
+  }
+}

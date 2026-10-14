@@ -1,0 +1,43 @@
+# Generalization stretch goal: train on level_1 only, evaluate completion rate on the held-out
+# level_2 (never seen during training) to measure the sim-to-sim generalization gap.
+#
+# KNOWN METHODOLOGY CAVEAT (see writeup.md §5.2): SB3's EvalCallback uses eval_level_path for
+# BOTH periodic monitoring AND best_model_save_path checkpoint selection, so running this config
+# as-is selects the saved checkpoint by its performance on the held-out level -- test-set peeking,
+# not a valid generalization test. For a methodologically clean generalization number, evaluate
+# a checkpoint from ppo_baseline.yaml (selected purely on level_1) on level_2 instead, e.g.:
+#   python -m agent.play --checkpoint runs/<baseline_run>/best_model.zip \
+#       --level game/levels/level_2.json --headless --episodes 100
+seed: 0
+
+env:
+  level_path: game/levels/level_1.json
+  eval_level_path: game/levels/level_2.json
+  max_episode_steps: 2400
+  frame_skip: 4
+  sticky_action_p: 0.0
+  reward_mode: shaped_time
+  n_envs: 8
+
+ppo:
+  policy: MlpPolicy
+  n_steps: 512
+  batch_size: 256
+  n_epochs: 10
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_range: 0.2
+  ent_coef: 0.01
+  vf_coef: 0.5
+  learning_rate: 0.0003
+  total_timesteps: 2000000
+  policy_kwargs:
+    net_arch: [64, 64]
+
+eval:
+  eval_freq: 20000
+  n_eval_episodes: 20
+  deterministic: true
+
+checkpoint:
+  save_freq: 100000
