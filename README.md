@@ -8,7 +8,7 @@ renderer (`render/`) for human play and watching the trained agent.
 locally and every dependency below supports 3.12 identically), pygame-ce for rendering,
 Gymnasium for the RL API, Stable-Baselines3 (PPO) for the RL algorithm. SB3 gives a *correct*
 PPO loop for free, so the time budget goes into the game engine, the MDP formulation, and the
-analysis in `writeup.md` -- that's where the grading signal is.
+analysis in `Review.md` -- that's where the grading signal is.
 
 ## Gameplay
 
@@ -31,7 +31,7 @@ See `mario_rl_build_prompt.md` for the full brief this was built from. Short ver
   `random_baseline.py` (the comparison baseline).
 - `configs/` -- YAML configs for the baseline and the reward-shaping ablation.
 - `tests/` -- determinism + Gymnasium API compliance.
-- `writeup.md` -- the research write-up: MDP formulation, reward design, results, stretch goals.
+- `Review.md` -- the research write-up: MDP formulation, reward design, results, stretch goals.
 
 ## Setup
 
@@ -127,23 +127,23 @@ python -m pytest tests/ -v
   `tests/test_physics.py` for the determinism tests this guarantees.
 - `agent/train.py` seeds `torch`, `numpy`, `random`, the env, and SB3's own `seed=` argument.
 - **Hardware / wall-clock:** Apple M1 Pro, 8-core CPU only, ~27 min per 2M-step run
-  (`configs/ppo_baseline.yaml`, `n_envs=8`, ~1200-1300 fps steady state). See `writeup.md` §4.
+  (`configs/ppo_baseline.yaml`, `n_envs=8`, ~1200-1300 fps steady state). See `Review.md` §4.
 
 ## Stretch goals attempted
 
 1. **Reward-shaping ablation** (run: `configs/reward_sparse.yaml`, `configs/reward_shaped.yaml`,
    `configs/ppo_baseline.yaml`, 2M steps each, seed 0) -- sparse converges to a fully idle
    policy, `shaped_no_time` and `shaped_time` both learn real forward-progress-seeking behavior.
-   Full results, plots, and a second local-optimum finding in `writeup.md` §5.1.
+   Full results, plots, and a second local-optimum finding in `Review.md` §5.1.
 2. **Generalization** (run: `configs/ppo_generalization.yaml` + a corrected comparison using
    `configs/ppo_baseline.yaml`'s own checkpoint) -- surfaced a real model-selection methodology
    bug (test-set peeking) worth reading about; the corrected result is an honest
-   negative/inconclusive finding. See `writeup.md` §5.2.
+   negative/inconclusive finding. See `Review.md` §5.2.
 3. **Extended training** (5M steps vs. the standard 2M, same config/seed) -- shows the
    completion-rate plateau is a capability ceiling, not a training-budget problem. See
-   `writeup.md` §3.2.
-4. Observation Study (pixels + CNN) was **not attempted** -- see `writeup.md` for why.
+   `Review.md` §3.2.
+4. Observation Study (pixels + CNN) was **not attempted** -- see `Review.md` for why.
 
 ## Disclosure
 
-See the "AI assistance and disclosure" section in `writeup.md`.
+See the "AI assistance and disclosure" section in `Review.md`.
